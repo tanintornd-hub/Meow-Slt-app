@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MEOW SLOT</title>
+    <link href="https://fonts.googleapis.com/css2?family=Chonburi&display=swap" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, hsl(0, 100%, 50%), hsl(60, 100%, 50%));
+            font-family: 'Chonburi', cursive;
+            color: white;
+            text-align: center;
+            margin: 0;
+            flex-direction: column;
+            padding: 2rem 0;
+            transition: background 1s ease;
+        }
+
+        .copyright-text {
+            font-family: 'Tahoma', sans-serif;
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 1rem;
+        }
+
+        .main-container {
+            display: flex;
+            gap: 2rem;
+            align-items: flex-start;
+            justify-content: center;
+            flex-grow: 1;
+        }
+        
+        .app-section {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .history-section {
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            width: 90%;
+            max-width: 350px; 
+            font-family: "Cordia New", sans-serif;
+        }
+
+        .history-section h2 {
+            font-size: 1.7em;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 40px 60px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            font-family: 'Chonburi', cursive;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .controls {
+            margin-bottom: 20px;
+        }
+
+        .select-reels-btn {
+            background-color: #f7d75d;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 10px;
+            margin: 0 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .select-reels-btn.active {
+            background-color: #ffc107;
+            border: 2px solid #d32f2f;
+        }
+
+        .slot-machine {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .reel-container {
+            height: 150px;
+            width: 100px;
+            overflow: hidden;
+            position: relative;
+            border-radius: 10px;
+            border: 5px solid #ff5722;
+            background-color: white;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .reel {
+            font-size: 4em;
+            color: #ff8c00;
+            line-height: 150px;
+            text-align: center;
+            transform: translateY(0);
+            transition: transform 0.1s ease-out;
+            position: absolute;
+            top: 0;
+            width: 100%;
+        }
+
+        .cat-paw-button {
+            background-color: #ffc107;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #d32f2f;
+            cursor: pointer;
+            box-shadow: 0 6px 0 #d32f2f;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .cat-paw-button:hover {
+            transform: translateY(2px);
+            box-shadow: 0 4px 0 #d32f2f;
+        }
+
+        .cat-paw-button:active {
+            transform: translateY(6px);
+            box-shadow: 0 0 0 #d32f2f;
+        }
+
+        .paw-icon {
+            font-size: 1.5em;
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+
+        #historyTable {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+            color: white;
+            font-family: "Cordia New", sans-serif;
+            font-size: 1.6em;
+        }
+        
+        #historyTable th, #historyTable td {
+            padding: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .bottom-text-container {
+            margin-top: 3rem;
+            text-align: center;
+            font-family: "Cordia New", sans-serif;
+            font-size: 1.4em;
+            line-height: 1.2; 
+        }
+
+        .visitor-counter {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 8px 12px;
+            border-radius: 10px;
+            font-size: 1em;
+            font-family: 'Chonburi', cursive;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .visitor-counter .count {
+            font-size: 1.2em;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="visitor-counter">
+        &#x1F465; Visitors: <span class="count" id="visitorCount">0</span>
+    </div>
+
+    <div class="main-container">
+        <div class="app-section">
+            <div class="container">
+                <h1>🐱 MEOW SLOT 🐱</h1>
+                <div class="controls">
+                    <button class="select-reels-btn" data-reels="2">2 หลัก</button>
+                    <button class="select-reels-btn active" data-reels="3">3 หลัก</button>
+                    <button class="select-reels-btn" data-reels="6">6 หลัก</button>
+                </div>
+                <div class="slot-machine">
+                    </div>
+                <button id="spinButton" class="cat-paw-button">
+                    <span class="paw-icon">🐾</span> หมุนเลย!
+                </button>
+            </div>
+        </div>
+
+        <div class="history-section">
+            <h2>ผลการสุ่มล่าสุด</h2>
+            <table id="historyTable">
+                <thead>
+                    <tr>
+                        <th>ลำดับ</th>
+                        <th>ผลลัพธ์</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    </tbody>
+            </table>
+            <button id="resetButton" class="cat-paw-button">
+                <span class="paw-icon">🐾</span> รีเซ็ต
+            </button>
+        </div>
+    </div>
+
+    <div class="bottom-text-container">
+        <p>เมื่อแมวที่บ้านของคุณวันๆไม่ทำอะไรนอกจากผลาญเงินของคุณ เค้าอาจจะอยากช่วยคุณหาเงิน แต่ไม่รู้จะทำอย่างไร ลองจับน้องมาให้โชคดูบ้าง</p>
+        <p>ท่องคาถา 3 ครั้ง / โอม มาริ ภะกฺขะติโชคํ ขะเณ ปุณฺญํ อาภิวารเยมฺ / คำอ่าน : โอม มาริ ภัก-ขะ-ติ-โช-คัง ขะ-เนะ ปุน-ญัง อา-ภิ-วา-ระ-เย-มัง / คำแปล : โอม แมวจงให้โชคลาภแก่ข้าพเจ้า ข้าจะเลี้ยงดูเจ้าอย่างดี</p>
+        <p>ให้น้องแมวเหยียบแป้น keyborad เพื่อให้โชคลาภ</p>
+    </div>
+
+    <div class="copyright-text">
+        <p>&#xA9; 2025 Copy Right | Power by Gemini 2.5 Flash | Prompt by Tanintorn D</p>
+    </div>
+
+    <audio id="clickSound" src="click.mp3" preload="auto"></audio>
+    <audio id="meowSound" src="meow.mp3" preload="auto"></audio>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const slotMachineDiv = document.querySelector('.slot-machine');
+            const spinButton = document.getElementById('spinButton');
+            const historyTableBody = document.querySelector('#historyTable tbody');
+            const resetButton = document.getElementById('resetButton');
+            const selectReelsButtons = document.querySelectorAll('.select-reels-btn');
+            const body = document.body;
+
+            // เรียกใช้งาน Element เสียง
+            const clickSound = document.getElementById('clickSound');
+            const meowSound = document.getElementById('meowSound');
+            
+            // ส่วนของระบบนับผู้เข้าชม
+            const visitorCountElement = document.getElementById('visitorCount');
+            const visitorKey = 'visitor_count';
+
+            function updateVisitorCount() {
+                let count = localStorage.getItem(visitorKey);
+                if (count) {
+                    count = parseInt(count) + 1;
+                } else {
+                    count = 1;
+                }
+                localStorage.setItem(visitorKey, count);
+                visitorCountElement.textContent = count;
+            }
+            updateVisitorCount();
+
+            let currentReels = 3;
+            let historyCount = 0;
+            const maxHistory = 5;
+            let hue = 0;
+
+            function renderReels(num) {
+                slotMachineDiv.innerHTML = '';
+                for (let i = 0; i < num; i++) {
+                    const reelContainer = document.createElement('div');
+                    reelContainer.classList.add('reel-container');
+                    const reel = document.createElement('div');
+                    reel.classList.add('reel');
+                    reel.textContent = '0';
+                    reelContainer.appendChild(reel);
+                    slotMachineDiv.appendChild(reelContainer);
+                }
+            }
+
+            function changeBackgroundColor() {
+                hue = (hue + 1) % 360;
+                const hue2 = (hue + 60) % 360;
+                body.style.background = `linear-gradient(135deg, hsl(${hue}, 100%, 50%), hsl(${hue2}, 100%, 50%))`;
+            }
+
+            renderReels(currentReels);
+
+            selectReelsButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    selectReelsButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    currentReels = parseInt(button.dataset.reels);
+                    renderReels(currentReels);
+                });
+            });
+
+            spinButton.addEventListener('click', startSpin);
+
+            document.addEventListener('keydown', (event) => {
+                if (!spinButton.disabled) {
+                    startSpin();
+                }
+            });
+
+            resetButton.addEventListener('click', () => {
+                historyTableBody.innerHTML = '';
+                historyCount = 0;
+            });
+
+            function startSpin() {
+                spinButton.disabled = true;
+                clickSound.play(); // เล่นเสียงคลิกเมื่อเริ่มสุ่ม
+
+                const reelElements = document.querySelectorAll('.reel');
+                const finalNumbers = Array.from({ length: currentReels }, () => Math.floor(Math.random() * 10));
+                
+                let reelSpins = [];
+                let stopOrder = Array.from(Array(currentReels).keys());
+                stopOrder.sort(() => Math.random() - 0.5);
+
+                reelElements.forEach((reel, index) => {
+                    const spinInterval = setInterval(() => {
+                        reel.textContent = Math.floor(Math.random() * 10);
+                    }, 50);
+                    reelSpins.push(spinInterval);
+                });
+
+                stopOrder.forEach((originalIndex, stopIndex) => {
+                    const stopDelay = 1500 + (stopIndex * 1500);
+                    
+                    setTimeout(() => {
+                        clearInterval(reelSpins[originalIndex]);
+                        reelElements[originalIndex].textContent = finalNumbers[originalIndex];
+                        meowSound.currentTime = 0; // รีเซ็ตเสียงเมี๊ยวหากเล่นค้าง
+                        meowSound.play(); // เล่นเสียงเมี๊ยวเมื่อแต่ละหลักหยุด
+
+                        if (stopIndex === currentReels - 1) {
+                            spinButton.disabled = false;
+                            saveResult(finalNumbers.join(''));
+                        }
+                    }, stopDelay);
+                });
+            }
+
+            function saveResult(result) {
+                historyCount++;
+                const newRow = historyTableBody.insertRow(0);
+                const cell1 = newRow.insertCell(0);
+                const cell2 = newRow.insertCell(1);
+
+                cell1.textContent = historyCount;
+                cell2.textContent = result;
+
+                if (historyTableBody.rows.length > maxHistory) {
+                    historyTableBody.deleteRow(maxHistory);
+                }
+            }
+            
+            // เปลี่ยนสีพื้นหลังทุกๆ 100 มิลลิวินาที (0.1 วินาที)
+            setInterval(changeBackgroundColor, 100);
+        });
+    </script>
+</body>
+</html>
